@@ -1,4 +1,32 @@
-#include <iostream>
+#include <dpp/dpp.h>
+
+const std::string    BOT_TOKEN = "NzQwNTc1MjQ2NTA3MTgwMDYy.XyrAcQ.6VmBChleuuh9GbJam1Sjd5q43zc";
+const dpp::snowflake MY_GUILD_ID = 704602626721054771;
+
+int main() {
+    dpp::cluster bot(BOT_TOKEN);
+
+    bot.on_log(dpp::utility::cout_logger());
+
+    bot.on_interaction_create([](const dpp::interaction_create_t& event) {
+        if (event.command.get_command_name() == "ping") {
+            event.reply("Pong!");
+        }
+        });
+
+    bot.on_ready([&bot](const dpp::ready_t& event) {
+        if (dpp::run_once<struct register_bot_commands>()) {
+            bot.guild_command_create(
+                dpp::slashcommand("ping", "Ping pong!", bot.me.id),
+                MY_GUILD_ID
+            );
+        }
+        });
+
+    bot.start(false);
+}
+
+/*#include <iostream>
 #include <dpp/dpp.h>
 #include <algorithm>
 #include <vector>
@@ -13,20 +41,20 @@ int main()
  
     bot.on_interaction_create([&bot](const dpp::interaction_create_t& event) {
         if (event.command.get_command_name() == "give_access") {
-        dpp::snowflake userR = std::get<dpp::snowflake>(event.get_parameter("user"));
+            dpp::snowflake userR = std::get<dpp::snowflake>(event.get_parameter("user"));
         //if (std::find(dpp::find_guild_member(GUILD_ID, userR).roles.begin(), dpp::find_guild_member(GUILD_ID, userR).roles.end(), userR) != dpp::find_guild_member(GUILD_ID, userR).roles.end() )
         //{
             bot.guild_member_add_role(GUILD_ID, userR, ROLE_ID);
-            dpp::message msg("Done!");
-            msg.set_flags(dpp::m_ephemeral);
-            event.reply(msg);
-            //event.reply("Done!");
+            //dpp::message msg("Done!");
+            //msg.set_flags(dpp::m_ephemeral);
+            //event.reply(msg);
+            event.reply("Done!");
         //}
         //else
         //{
           //  event.reply("He already have access!");
         //}
-        printf("[ACCESS] '%s#%u' gave full server access to '%s#%u'", event.command.usr.username, event.command.usr.discriminator, dpp::find_user(userR)->username, dpp::find_user(userR)->discriminator);
+            //printf("[ACCESS] '%s#%u' gave full server access to '%s#%u'", event.command.usr.username, event.command.usr.discriminator, dpp::find_user(userR)->username, dpp::find_user(userR)->discriminator);
     }
     });
  
@@ -43,4 +71,4 @@ int main()
     bot.start(false);
  
     return 0;
-}
+}*/
