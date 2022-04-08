@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 3.10)
+
+add_subdirectory(libs/DPP)
+
+project(TWRS-Bot)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+add_executable(DcBot main.cpp)
+
+target_link_libraries(DcBot dpp)
+target_include_directories(DcBot PRIVATE libs/DPP/include)
