@@ -35,7 +35,6 @@ jobs:
         sudo apt-get upgrade -y
         sudo apt-get install pkg-config cmake ninja-build -y  
     - name: Build in release mode
-      env: ${{ matrix.env }}
       run: |
         mkdir release
         cd release
