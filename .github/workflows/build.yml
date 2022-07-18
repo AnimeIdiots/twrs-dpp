@@ -38,14 +38,6 @@ jobs:
         sudo apt-get update -y
         sudo apt-get upgrade -y
         sudo apt-get install pkg-config cmake ninja-build -y  
-    - name: Build in debug mode
-      env: ${{ matrix.env }}
-      run: |
-        mkdir debug
-        cd debug
-        ${{ matrix.cmake-path }}cmake --version
-        ${{ matrix.cmake-path }}cmake -DCMAKE_BUILD_TYPE=Debug -Werror=dev ..
-        ${{ matrix.cmake-path }}cmake --build .
     - name: Build in release mode
       env: ${{ matrix.env }}
       run: |
