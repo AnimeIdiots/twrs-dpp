@@ -10,22 +10,19 @@ dpp::snowflake GUILD_ID;
 dpp::snowflake ROLE_ID;
 std::vector<dpp::snowflake> ACCESS_ROLE_IDS;
 
-bool read_config()
+void read_config()
 {
     auto data = toml::parse("conf.toml");
     BOT_TOKEN = toml::find<std::string>(data, "token");
     GUILD_ID = toml::find<uint64_t>(data, "guild-id");
     ROLE_ID = toml::find<uint64_t>(data, "role-id");
     ACCESS_ROLE_IDS = toml::find<std::vector<uint64_t>>(data, "access-roles");
+    return;
 }
 
 int main()
 {
-    if (read_config())
-    {
-        printf("Error reading values\n");
-        return -1;
-    }
+    read_config();
     dpp::cluster bot(BOT_TOKEN, dpp::i_all_intents);
 
     bot.on_interaction_create([&bot](const dpp::interaction_create_t& event) {
