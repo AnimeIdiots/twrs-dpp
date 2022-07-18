@@ -1,0 +1,4 @@
+token = "mySecretToken"
+guild-id = 0
+role-id = 0
+access-roles = [1,2,3,4]

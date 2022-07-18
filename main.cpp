@@ -3,73 +3,20 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <toml.hpp>
 
 std::string    BOT_TOKEN;
 dpp::snowflake GUILD_ID;
 dpp::snowflake ROLE_ID;
 std::vector<dpp::snowflake> ACCESS_ROLE_IDS;
-int ACCESS_ROLE_NUM;
 
 bool read_config()
 {
-    int verif = 5;
-    std::ifstream cFile("config.cfg");
-    if (cFile.is_open())
-    {
-        std::string line;
-        while (getline(cFile, line)) {
-            line.erase(std::remove_if(line.begin(), line.end(), isspace),
-                line.end());
-            if (line[0] == '#' || line.empty())
-                continue;
-            auto delimiterPos = line.find("=");
-            auto name = line.substr(0, delimiterPos);
-            auto value = line.substr(delimiterPos + 1);
-            if (name == "token")
-            {
-                BOT_TOKEN = value;
-                verif--;
-            }
-            else if (name == "guild_id")
-            {
-                GUILD_ID = std::stoull(value);
-                verif--;
-            }
-            else if (name == "role_id")
-            {
-                ROLE_ID = std::stoull(value);
-                verif--;
-            }
-            else if (name == "access_roles_num")
-            {
-                ACCESS_ROLE_NUM = std::stoi(value);
-                verif--;
-            }
-            else if (name == "access_roles")
-            {
-                std::string temp;
-                int ind = 0;
-                for (int n = 0; n < ACCESS_ROLE_NUM; n++)
-                {
-                    for (int i = ind; i < value.size(); i++)
-                        if (value[i] != ';')
-                            temp += value[i];
-                        else
-                        {
-                            ind = i + 1;
-                            break;
-                        }
-                    ACCESS_ROLE_IDS.push_back(std::stoull(temp));
-                    temp.clear();
-                }
-                verif--;
-            }
-        }
-    }
-    else {
-        std::cerr << "Couldn't open config file for reading.\n";
-    }
-    return verif;
+    auto data = toml::parse("conf.toml");
+    BOT_TOKEN = toml::find<std::string>(data, "token");
+    GUILD_ID = toml::find<uint64_t>(data, "guild-id");
+    ROLE_ID = toml::find<uint64_t>(data, "role-id");
+    ACCESS_ROLE_IDS = toml::find<std::vector<uint64_t>>(data, "access-roles");
 }
 
 int main()
@@ -95,7 +42,7 @@ int main()
             }
             dpp::snowflake userR = std::get<dpp::snowflake>(event.get_parameter("user"));
             std::vector<dpp::snowflake> roles = dpp::find_guild_member(GUILD_ID, userR).roles;
-            
+
             if (std::find(roles.begin(), roles.end(), ROLE_ID) == roles.end())
             {
                 bot.guild_member_add_role(GUILD_ID, userR, ROLE_ID);
