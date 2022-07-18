@@ -1,6 +1,6 @@
 find_path(DPP_INCLUDE_DIR NAMES dpp/dpp.h HINTS ${DPP_ROOT_DIR})
 
-find_library(DPP_LIBRARIES NAMES dpp.lib libdpp.a HINTS ${DPP_ROOT_DIR})
+find_library(DPP_LIBRARIES NAMES "dpp.lib" "libdpp.a" HINTS ${DPP_ROOT_DIR})
 
 include(FindPackageHandleStandardArgs)
 
