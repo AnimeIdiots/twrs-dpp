@@ -23,9 +23,9 @@ jobs:
           package-file: "TWRS-Bot.exe"
           fancy: false
           env:
-            CFLAGS: /WX
-            CXXFLAGS: /WX
-            LDFLAGS: /WX
+            CFLAGS: /WX:NO
+            CXXFLAGS: /WX:NO
+            LDFLAGS: /WX:NO
 
     steps:
     - uses: actions/checkout@v2
