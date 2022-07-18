@@ -33,7 +33,7 @@ jobs:
       run: |
         sudo apt-get update -y
         sudo apt-get upgrade -y
-        sudo apt-get install pkg-config cmake ninja-build -y
+        sudo apt-get install pkg-config cmake ninja-build libsodium-dev libopus-dev -y
         sudo dpkg -i libs/DPP/libdpp-10.0.13-linux-x64.deb
     - name: Build in release mode
       run: |
