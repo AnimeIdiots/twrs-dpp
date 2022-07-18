@@ -43,6 +43,7 @@ jobs:
     - name: Package
       run: |
         cd release
+        ls -R
         mkdir artifacts
         mv ../conf.toml artifacts
         mv ${{ matrix.package-file }} artifacts
