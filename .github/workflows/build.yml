@@ -13,7 +13,6 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         include:
         - os: ubuntu-latest
-          cmake-args: -G Ninja
           package-file: "*"
           fancy: true
           env:
@@ -45,15 +44,15 @@ jobs:
         mkdir debug
         cd debug
         ${{ matrix.cmake-path }}cmake --version
-        ${{ matrix.cmake-path }}cmake ${{ matrix.cmake-args }} -DCMAKE_BUILD_TYPE=Debug -Werror=dev ..
-        ${{ matrix.cmake-path }}cmake --build . --config Debug --target all ${{ matrix.build-args }}
+        ${{ matrix.cmake-path }}cmake -DCMAKE_BUILD_TYPE=Debug -Werror=dev ..
+        ${{ matrix.cmake-path }}cmake --build .
     - name: Build in release mode
       env: ${{ matrix.env }}
       run: |
         mkdir release
         cd release
         ${{ matrix.cmake-path }}cmake ${{ matrix.cmake-args }} -DCMAKE_BUILD_TYPE=Release -Werror=dev ..
-        ${{ matrix.cmake-path }}cmake --build . --config Release --target all ${{ matrix.build-args }}
+        ${{ matrix.cmake-path }}cmake --build .
     - name: Package
       run: |
         cd release
