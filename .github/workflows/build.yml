@@ -20,7 +20,7 @@ jobs:
             CXXFLAGS: -Werror
         - os: windows-latest
           cmake-args: -A x64
-          package-file: "TWRS-Bot.exe"
+          package-file: "Debug/libs/TWRS-Bot.exei"
           fancy: false
 
     steps:
